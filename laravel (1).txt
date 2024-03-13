@@ -1,0 +1,39 @@
+1. Create a folder php
+2. composer create-project laravel/laravel newProject
+3. cd newProject
+4. php artisan serve
+5. php artisan make:controller HomeController
+6. app->Http->Contoller->HomeController.php
+
+(created a function homepage)
+
+7. route->web.php
+	Type-> Route::get('/', [HomeController::Class, 'homepage']);
+  	(install php namespace)
+	(right click on HomeController->import class)
+	
+8.views->Homepage.blade.php(create)---type
+9.views->components(folder)
+10. inside componets create layout.blade.php
+11. in homepage.blade.php
+	copy navbar and form(put inside div) code from bootstrap(inside x-layout)
+12.Add username and retype password field
+13.cut the navbar code and paste it in layout.blade.php
+14.create another controller UserController
+(import class)
+15. <div class="container">
+        <form action="register" method="post">
+	type it in homepage.blade.php
+before form
+16.UserContoller.php
+
+17.open mysql workbench->open->right click create schema->apply->apply->finish
+18..env (check db_database:name)
+[user.php check]
+19.database->migrations->first_one
+	 php artisan migrate:fresh
+20. add name to all the fields in the form
+21. add @error in all fields
+22. inside input in email,password add value="{{old('name')}}"
+
+
