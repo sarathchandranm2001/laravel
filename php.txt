@@ -1,0 +1,89 @@
+
+Below is a simple PHP program for user login and registration using WampServer (Apache, MySQL, and PHP). This example assumes you have set up WampServer properly and have a MySQL database named users with a table named user_info having columns id, username, and password.
+
+php
+Copy code
+<?php
+// Start the session
+session_start();
+
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "users";
+
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Login logic
+if(isset($_POST['login'])){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM user_info WHERE username='$username' AND password='$password'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $_SESSION['username'] = $username;
+        header('Location: welcome.php');
+        exit();
+    } else {
+        echo "Invalid username or password";
+    }
+}
+
+// Registration logic
+if(isset($_POST['register'])){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "INSERT INTO user_info (username, password) VALUES ('$username', '$password')";
+    if ($conn->query($sql) === TRUE) {
+        echo "Registration successful";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Registration</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="post" action="">
+        <label>Username:</label><br>
+        <input type="text" name="username" required><br>
+        <label>Password:</label><br>
+        <input type="password" name="password" required><br>
+        <input type="submit" name="login" value="Login">
+    </form>
+
+    <h2>Register</h2>
+    <form method="post" action="">
+        <label>Username:</label><br>
+        <input type="text" name="username" required><br>
+        <label>Password:</label><br>
+        <input type="password" name="password" required><br>
+        <input type="submit" name="register" value="Register">
+    </form>
+</body>
+</html>
+Make sure to create a file named welcome.php for the redirect after successful login. This file will contain the welcome message or any other content you wish to display upon successful login.
+
+This is a basic example. In a real-world scenario, you should always hash passwords before storing them in the database, use prepared statements to prevent SQL injection, and implement proper error handling.
+
+
+
+
